@@ -177,7 +177,7 @@ try:
             page += 1
 
 except KeyboardInterrupt:
-    print("\nstoped by user! saving data")
+    print("\nstopped by user! saving data")
 finally:
     driver.quit()
 
