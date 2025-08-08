@@ -1,3 +1,4 @@
+#Like main1.py but with pages and indexes
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
