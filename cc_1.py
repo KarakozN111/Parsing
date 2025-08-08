@@ -13,8 +13,6 @@ import random
 import time
 import re
 import os
-
-# --- CATEGORY MAPPING ---
 category_mapping = {
     "holodilniki": "REF",
     "morozilniki": "REF",
@@ -34,14 +32,14 @@ category_mapping = {
     "proektori": "Projectors"
 }
 
-# --- SELENIUM CONFIG ---
+
 options = Options()
 options.headless = False
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36")
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 driver = webdriver.Chrome(options=options)
 
-# --- CATEGORY URLS ---
+
 category_urls = [
     'https://halykmarket.kz/category/tehnika-dlya-doma?sort=popular-desc&f=brands%3ALG%3Abrands%3ASamsung',
     'https://halykmarket.kz/category/noutbuki-i-kompyuteri?sort=popular-desc&f=brands%3ASamsung%3Abrands%3ALG',
@@ -49,7 +47,6 @@ category_urls = [
     'https://halykmarket.kz/category/televizori-i-audiotehnika?sort=popular-desc&f=brands%3ALG%3Abrands%3ASamsung'
 ]
 
-# --- GET TOTAL PAGES FUNCTION ---
 def get_total_pages(driver, url):
     driver.get(url)
     try:
@@ -62,7 +59,6 @@ def get_total_pages(driver, url):
     except:
         return 1
 
-# --- MAIN SCRAPER ---
 products_data = []
 
 for base_url in category_urls:
@@ -191,7 +187,6 @@ for base_url in category_urls:
 
 driver.quit()
 
-# --- SAVE TO EXCEL & DB ---
 df = pd.DataFrame(products_data, columns=["Item", "Seller", "Price", "Link", "Category"])
 df['Price'] = df["Price"].apply(lambda x: int(''.join(re.findall(r'\d+', x))) if isinstance(x, str) else None)
 df["Parsed Date"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -234,6 +229,6 @@ for _, row in df.iterrows():
 conn.commit()
 conn.close()
 
-print(f"\n✅ Done. Total saved rows: {len(products_data)}")
+print(f"\nDone. Total saved rows: {len(products_data)}")
 
 
